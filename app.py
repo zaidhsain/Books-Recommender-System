@@ -119,8 +119,10 @@ def load_custom_css():
         
         /* ============ MAIN BACKGROUND ============ */
         .stApp {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 100%);
-            background-size: 400% 400%;
+            background: 
+                linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 25%, rgba(240, 147, 251, 0.95) 50%, rgba(79, 172, 254, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=2000') center/cover fixed;
+            background-size: 400% 400%, cover;
             animation: gradientShift 15s ease infinite;
         }
         
@@ -169,12 +171,79 @@ def load_custom_css():
             50% { transform: translate(100px, -100px) rotate(-180deg); }
         }
         
+        /* ============ SPARKLE PARTICLES ============ */
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        .stApp::after {
+            animation: float2 18s infinite ease-in-out, sparkle 3s infinite;
+        }
+        
         /* ============ HERO SECTION ============ */
         .hero-container {
             text-align: center;
             padding: 3rem 2rem;
             position: relative;
             z-index: 1;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            border-radius: 30px;
+            margin: 1rem;
+        }
+        
+        .hero-book-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            filter: blur(2px);
+            animation: zoomInOut 20s infinite ease-in-out;
+        }
+        
+        @keyframes zoomInOut {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .hero-overlay-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.6), rgba(118, 75, 162, 0.6), rgba(240, 147, 251, 0.6));
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInDown 1s ease-out;
         }
         
         .hero-title {
@@ -205,6 +274,60 @@ def load_custom_css():
             margin: 0 auto 2rem;
             line-height: 1.6;
             animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+        
+        .hero-decorative-books {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-book {
+            position: absolute;
+            width: 100px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            opacity: 0.3;
+            transform-style: preserve-3d;
+        }
+        
+        .book-1 {
+            top: 10%;
+            left: 5%;
+            animation: floatBook1 15s infinite ease-in-out;
+        }
+        
+        .book-2 {
+            top: 60%;
+            right: 8%;
+            animation: floatBook2 12s infinite ease-in-out;
+        }
+        
+        .book-3 {
+            bottom: 15%;
+            left: 10%;
+            animation: floatBook3 18s infinite ease-in-out;
+        }
+        
+        @keyframes floatBook1 {
+            0%, 100% { transform: translateY(0px) rotateZ(-5deg); }
+            50% { transform: translateY(-30px) rotateZ(5deg); }
+        }
+        
+        @keyframes floatBook2 {
+            0%, 100% { transform: translateY(0px) rotateZ(5deg); }
+            50% { transform: translateY(-40px) rotateZ(-5deg); }
+        }
+        
+        @keyframes floatBook3 {
+            0%, 100% { transform: translateY(0px) rotateZ(-3deg); }
+            50% { transform: translateY(-35px) rotateZ(3deg); }
         }
         
         @keyframes fadeInDown {
@@ -247,12 +370,66 @@ def load_custom_css():
             text-align: center;
             transition: all 0.4s ease;
             animation: fadeInUp 1s ease-out 0.6s backwards;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+        }
+        
+        .stat-card:hover::before {
+            left: 100%;
         }
         
         .stat-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.05);
             background: rgba(255, 255, 255, 0.25);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-icon-bg {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .stat-bg-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: blur(1px);
+            transition: all 0.4s ease;
+        }
+        
+        .stat-card:hover .stat-bg-img {
+            opacity: 0.5;
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .stat-icon-overlay {
+            position: relative;
+            z-index: 2;
+            font-size: 2rem;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3));
         }
         
         .stat-number {
@@ -260,6 +437,7 @@ def load_custom_css():
             font-weight: 700;
             color: #fff;
             margin-bottom: 0.5rem;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
         }
         
         .stat-label {
@@ -309,6 +487,49 @@ def load_custom_css():
             margin-bottom: 2rem;
         }
         
+        .section-icon-header {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-header-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            filter: blur(1px);
+            transition: all 0.4s ease;
+        }
+        
+        .section-icon-header:hover .section-header-img {
+            opacity: 0.6;
+            transform: scale(1.1);
+        }
+        
+        .section-icon-overlay {
+            position: relative;
+            z-index: 2;
+            font-size: 4rem;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
         .section-title {
             font-size: 2.5rem;
             font-weight: 700;
@@ -334,6 +555,52 @@ def load_custom_css():
             color: rgba(255, 255, 255, 0.9);
             font-size: 1.1rem;
             margin-top: 1.5rem;
+        }
+        
+        /* ============ DECORATIVE DIVIDER ============ */
+        .decorative-divider {
+            position: relative;
+            height: 200px;
+            margin: 3rem 0;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .divider-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: blur(2px);
+        }
+        
+        .divider-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.6), rgba(240, 147, 251, 0.6));
+        }
+        
+        .divider-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .divider-icon {
+            font-size: 4rem;
+            filter: drop-shadow(0 5px 20px rgba(0, 0, 0, 0.5));
+            animation: rotate360 10s linear infinite;
+        }
+        
+        @keyframes rotate360 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         /* ============ BUTTONS ============ */
@@ -580,6 +847,74 @@ def load_custom_css():
             border-radius: 2px;
         }
         
+        /* ============ SHOWCASE SECTION ============ */
+        .showcase-section {
+            margin: 3rem 0;
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .showcase-card {
+            position: relative;
+            height: 400px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        .showcase-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+        }
+        
+        .showcase-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .showcase-card:hover .showcase-image {
+            transform: scale(1.1);
+            filter: brightness(0.7);
+        }
+        
+        .showcase-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6), transparent);
+            padding: 2rem;
+            transform: translateY(50%);
+            transition: transform 0.5s ease;
+        }
+        
+        .showcase-card:hover .showcase-overlay {
+            transform: translateY(0);
+        }
+        
+        .showcase-title {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .showcase-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
         /* ============ FEATURE CARDS ============ */
         .feature-grid {
             display: grid;
@@ -596,6 +931,24 @@ def load_custom_css():
             padding: 2rem;
             text-align: center;
             transition: all 0.4s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
         }
         
         .feature-card:hover {
@@ -604,9 +957,46 @@ def load_custom_css():
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
         }
         
+        .feature-icon-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .feature-bg-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: blur(1px);
+            transition: all 0.4s ease;
+        }
+        
+        .feature-card:hover .feature-bg-image {
+            opacity: 0.5;
+            transform: scale(1.1);
+        }
+        
         .feature-icon {
             font-size: 3rem;
-            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+            transition: transform 0.4s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(10deg);
         }
         
         .feature-title {
@@ -624,19 +1014,135 @@ def load_custom_css():
         
         /* ============ FOOTER ============ */
         .footer {
+            position: relative;
             text-align: center;
             color: rgba(255, 255, 255, 0.9);
-            padding: 3rem 2rem;
+            padding: 4rem 2rem;
             margin-top: 4rem;
-            font-size: 1rem;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            border-radius: 24px 24px 0 0;
+        }
+        
+        .footer-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+        
+        .footer-bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            filter: blur(3px);
+        }
+        
+        .footer-bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+        }
+        
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-logo-section {
+            margin-bottom: 1.5rem;
         }
         
         .footer-logo {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .footer-brand {
             font-size: 2rem;
-            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer-tagline {
+            font-size: 1.1rem;
+            margin: 1rem 0 1.5rem;
+            font-weight: 500;
+        }
+        
+        .footer-tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .tech-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-badge:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer-divider {
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            margin: 2rem auto;
+        }
+        
+        .footer-copyright {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         /* ============ LOADING SPINNER ============ */
@@ -666,12 +1172,24 @@ def load_custom_css():
 def display_hero_section():
     st.markdown("""
         <div class='hero-container'>
-            <h1 class='hero-title'>📚 BookVerse AI</h1>
-            <p class='hero-subtitle'>Your Personal AI-Powered Reading Companion</p>
-            <p class='hero-description'>
-                Discover your next favorite book with our advanced collaborative filtering algorithm. 
-                Get personalized recommendations based on millions of reader preferences and ratings.
-            </p>
+            <div class='hero-image-container'>
+                <img src='https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800' class='hero-book-image' alt='Books'/>
+                <div class='hero-overlay-gradient'></div>
+            </div>
+            <div class='hero-content'>
+                <div class='hero-badge'>✨ AI-Powered Recommendations</div>
+                <h1 class='hero-title'>📚 BookVerse AI</h1>
+                <p class='hero-subtitle'>Your Personal AI-Powered Reading Companion</p>
+                <p class='hero-description'>
+                    Discover your next favorite book with our advanced collaborative filtering algorithm. 
+                    Get personalized recommendations based on millions of reader preferences and ratings.
+                </p>
+                <div class='hero-decorative-books'>
+                    <img src='https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=200' class='floating-book book-1' alt='Book'/>
+                    <img src='https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=200' class='floating-book book-2' alt='Book'/>
+                    <img src='https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=200' class='floating-book book-3' alt='Book'/>
+                </div>
+            </div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -680,18 +1198,34 @@ def display_stats():
     st.markdown("""
         <div class='stats-container'>
             <div class='stat-card'>
+                <div class='stat-icon-bg'>
+                    <img src='https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=100' class='stat-bg-img' alt='Books'/>
+                    <div class='stat-icon-overlay'>📚</div>
+                </div>
                 <div class='stat-number'>10K+</div>
                 <div class='stat-label'>Books Analyzed</div>
             </div>
             <div class='stat-card'>
+                <div class='stat-icon-bg'>
+                    <img src='https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=100' class='stat-bg-img' alt='Users'/>
+                    <div class='stat-icon-overlay'>👥</div>
+                </div>
                 <div class='stat-number'>50K+</div>
                 <div class='stat-label'>User Ratings</div>
             </div>
             <div class='stat-card'>
+                <div class='stat-icon-bg'>
+                    <img src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=100' class='stat-bg-img' alt='Accuracy'/>
+                    <div class='stat-icon-overlay'>📊</div>
+                </div>
                 <div class='stat-number'>95%</div>
                 <div class='stat-label'>Accuracy Rate</div>
             </div>
             <div class='stat-card'>
+                <div class='stat-icon-bg'>
+                    <img src='https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=100' class='stat-bg-img' alt='AI'/>
+                    <div class='stat-icon-overlay'>🤖</div>
+                </div>
                 <div class='stat-number'>24/7</div>
                 <div class='stat-label'>AI Available</div>
             </div>
@@ -703,28 +1237,40 @@ def display_features():
     st.markdown("""
         <div class='feature-grid'>
             <div class='feature-card'>
-                <div class='feature-icon'>🤖</div>
+                <div class='feature-icon-wrapper'>
+                    <img src='https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=200' class='feature-bg-image' alt='AI'/>
+                    <div class='feature-icon'>🤖</div>
+                </div>
                 <div class='feature-title'>AI-Powered</div>
                 <div class='feature-description'>
                     Advanced machine learning algorithms analyze reading patterns
                 </div>
             </div>
             <div class='feature-card'>
-                <div class='feature-icon'>⚡</div>
+                <div class='feature-icon-wrapper'>
+                    <img src='https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?q=80&w=200' class='feature-bg-image' alt='Speed'/>
+                    <div class='feature-icon'>⚡</div>
+                </div>
                 <div class='feature-title'>Lightning Fast</div>
                 <div class='feature-description'>
                     Get instant recommendations in milliseconds
                 </div>
             </div>
             <div class='feature-card'>
-                <div class='feature-icon'>🎯</div>
+                <div class='feature-icon-wrapper'>
+                    <img src='https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=200' class='feature-bg-image' alt='Accuracy'/>
+                    <div class='feature-icon'>🎯</div>
+                </div>
                 <div class='feature-title'>Highly Accurate</div>
                 <div class='feature-description'>
                     95% match rate based on your reading preferences
                 </div>
             </div>
             <div class='feature-card'>
-                <div class='feature-icon'>🌟</div>
+                <div class='feature-icon-wrapper'>
+                    <img src='https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=200' class='feature-bg-image' alt='Personal'/>
+                    <div class='feature-icon'>🌟</div>
+                </div>
                 <div class='feature-title'>Personalized</div>
                 <div class='feature-description'>
                     Tailored suggestions just for your unique taste
@@ -759,7 +1305,11 @@ if __name__ == "__main__":
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.markdown("""
         <div class='section-header'>
-            <div class='section-title'>🚀 Training Engine</div>
+            <div class='section-icon-header'>
+                <img src='https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=150' class='section-header-img' alt='Training'/>
+                <div class='section-icon-overlay'>🚀</div>
+            </div>
+            <div class='section-title'>Training Engine</div>
             <p class='section-description'>
                 Train the AI model with the latest book ratings and collaborative filtering data
             </p>
@@ -772,13 +1322,25 @@ if __name__ == "__main__":
     
     st.markdown("</div>", unsafe_allow_html=True)
     
-    st.markdown("<hr>", unsafe_allow_html=True)
+    st.markdown("""
+        <div class='decorative-divider'>
+            <img src='https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200' class='divider-image' alt='Books'/>
+            <div class='divider-overlay'></div>
+            <div class='divider-content'>
+                <div class='divider-icon'>✨</div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
     
     # Book Selection Section
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.markdown("""
         <div class='section-header'>
-            <div class='section-title'>🔍 Discover Your Next Read</div>
+            <div class='section-icon-header'>
+                <img src='https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=150' class='section-header-img' alt='Search'/>
+                <div class='section-icon-overlay'>🔍</div>
+            </div>
+            <div class='section-title'>Find Your Book</div>
             <p class='section-description'>
                 Select a book you love, and we'll find similar titles you'll enjoy
             </p>
@@ -798,7 +1360,54 @@ if __name__ == "__main__":
     
     st.markdown("</div>", unsafe_allow_html=True)
     
-    st.markdown("<hr>", unsafe_allow_html=True)
+    st.markdown("""
+        <div class='decorative-divider'>
+            <img src='https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200' class='divider-image' alt='Books'/>
+            <div class='divider-overlay'></div>
+            <div class='divider-content'>
+                <div class='divider-icon'>✨</div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Visual Showcase Section
+    st.markdown("""
+        <div class='showcase-section'>
+            <div class='showcase-grid'>
+                <div class='showcase-card'>
+                    <img src='https://images.unsplash.com/photo-1535905557558-afc4877a26fc?q=80&w=800' class='showcase-image' alt='Reading'/>
+                    <div class='showcase-overlay'>
+                        <h3 class='showcase-title'>Immersive Reading Experience</h3>
+                        <p class='showcase-text'>Discover books that transport you to new worlds</p>
+                    </div>
+                </div>
+                <div class='showcase-card'>
+                    <img src='https://images.unsplash.com/photo-1519682337058-a94d519337bc?q=80&w=800' class='showcase-image' alt='Library'/>
+                    <div class='showcase-overlay'>
+                        <h3 class='showcase-title'>Endless Possibilities</h3>
+                        <p class='showcase-text'>Access to thousands of curated recommendations</p>
+                    </div>
+                </div>
+                <div class='showcase-card'>
+                    <img src='https://images.unsplash.com/photo-1491841573634-28140fc7ced7?q=80&w=800' class='showcase-image' alt='Modern Reading'/>
+                    <div class='showcase-overlay'>
+                        <h3 class='showcase-title'>Smart Technology</h3>
+                        <p class='showcase-text'>AI that understands your unique reading taste</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+        <div class='decorative-divider'>
+            <img src='https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1200' class='divider-image' alt='Books Stack'/>
+            <div class='divider-overlay'></div>
+            <div class='divider-content'>
+                <div class='divider-icon'>📖</div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
     
     # Features Section
     st.markdown("""
@@ -811,10 +1420,30 @@ if __name__ == "__main__":
     # Footer
     st.markdown("""
         <div class='footer'>
-            <div class='footer-logo'>📚</div>
-            <p><strong>BookVerse AI</strong> - Powered by Advanced Collaborative Filtering & Machine Learning</p>
-            <p style='margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;'>
-                Built with ❤️ using Streamlit • Python • Scikit-learn
-            </p>
+            <div class='footer-background'>
+                <img src='https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1200' class='footer-bg-image' alt='Library'/>
+                <div class='footer-bg-overlay'></div>
+            </div>
+            <div class='footer-content'>
+                <div class='footer-logo-section'>
+                    <div class='footer-logo'>📚</div>
+                    <h3 class='footer-brand'>BookVerse AI</h3>
+                </div>
+                <p class='footer-tagline'>Powered by Advanced Collaborative Filtering & Machine Learning</p>
+                <div class='footer-tech-stack'>
+                    <span class='tech-badge'>🐍 Python</span>
+                    <span class='tech-badge'>⚡ Streamlit</span>
+                    <span class='tech-badge'>🤖 Scikit-learn</span>
+                    <span class='tech-badge'>🎨 Beautiful UI</span>
+                </div>
+                <div class='footer-divider'></div>
+                <p class='footer-copyright'>Built with ❤️ for book lovers worldwide • © 2026 BookVerse AI</p>
+                <div class='footer-social'>
+                    <span class='social-link'>🌐 Web</span>
+                    <span class='social-link'>💼 LinkedIn</span>
+                    <span class='social-link'>🐱 GitHub</span>
+                    <span class='social-link'>📧 Contact</span>
+                </div>
+            </div>
         </div>
     """, unsafe_allow_html=True)
